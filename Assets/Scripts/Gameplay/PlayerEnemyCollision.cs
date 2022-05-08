@@ -20,7 +20,8 @@ namespace Platformer.Gameplay
 
         public override void Execute()
         {
-            var willHurtEnemy = player.Bounds.center.y >= enemy.Bounds.max.y;
+            // Changed to opposite of standard platformer behavior
+            var willHurtEnemy = player.Bounds.center.y < enemy.Bounds.max.y;
 
             if (willHurtEnemy)
             {

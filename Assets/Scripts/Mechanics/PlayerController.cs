@@ -27,6 +27,7 @@ namespace Platformer.Mechanics
         /// </summary>
         public float jumpTakeOffSpeed = 7;
 
+
         public JumpState jumpState = JumpState.Grounded;
         /*internal new*/
         public Collider2D collider2d;
@@ -34,6 +35,7 @@ namespace Platformer.Mechanics
         public AudioSource audioSource;
         public Health health;
         public bool controlEnabled = true;
+        private Vector2 additionalVelocity = Vector2.zero;
 
         bool jump;
         Vector2 move;
@@ -113,7 +115,23 @@ namespace Platformer.Mechanics
             animator.SetBool("grounded", IsGrounded);
             animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
 
-            targetVelocity = move * maxSpeed;
+            if (controlEnabled)
+            {
+
+                targetVelocity = move * maxSpeed;
+            }
+            else
+            {
+                targetVelocity = velocity;
+            }
+            targetVelocity += additionalVelocity;
+            additionalVelocity = Vector2.zero;
+        }
+
+        public void AddVelocity(Vector2 addend)
+        {
+            additionalVelocity += addend;
+            groundNormal = new Vector2(0, 1);
         }
 
         public enum JumpState

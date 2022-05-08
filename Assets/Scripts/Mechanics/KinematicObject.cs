@@ -101,11 +101,7 @@ namespace Platformer.Mechanics
 
         protected virtual void FixedUpdate()
         {
-            //if already falling, fall faster than the jump speed, otherwise use normal gravity.
-            if (velocity.y < 0)
-                velocity += gravityModifier * Physics2D.gravity * Time.deltaTime;
-            else
-                velocity += Physics2D.gravity * Time.deltaTime;
+            velocity += Physics2D.gravity * Time.deltaTime * gravityModifier;
 
             velocity.x = targetVelocity.x;
 
@@ -162,7 +158,8 @@ namespace Platformer.Mechanics
                     {
                         //We are airborne, but hit something, so cancel vertical up and horizontal velocity.
                         velocity.x *= 0;
-                        velocity.y = Mathf.Min(velocity.y, 0);
+                        if (currentNormal.y < -0.1f)
+                            velocity.y = Mathf.Min(velocity.y, 0); //Removed for project
                     }
                     //remove shellDistance from actual move distance.
                     var modifiedDistance = hitBuffer[i].distance - shellRadius;

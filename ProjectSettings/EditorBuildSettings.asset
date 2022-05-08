@@ -6,6 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/LevelNostalgia.unity
+    guid: 4d4fcb551b19bfb488b82c8157c32457
+  - enabled: 1
+    path: Assets/Scenes/LevelEsophagus.unity
+    guid: 88881d5a9b65bd84dbe011db6473e743
+  - enabled: 1
+    path: Assets/Scenes/LevelSummit.unity
+    guid: 0f29d7cd8881d1146b8ca82587dca974
+  - enabled: 1
+    path: Assets/Scenes/LevelKopernica.unity
+    guid: 128e54cb592dcf74fb807adef2e62751
   m_configObjects: {}

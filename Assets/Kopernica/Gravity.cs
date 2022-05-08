@@ -8,9 +8,20 @@ public class Gravity : MonoBehaviour
     [SerializeField] Transform[] bodyPositions;
     [SerializeField] float[] bodyMasses;
     [SerializeReference] float gravitationalConstant = 1;
+    [SerializeField] LineRenderer[] lines;
+    [SerializeField] LineRenderer pushLine;
+    [SerializeField] Vector2 initialVelocity;
+
+    [SerializeReference] float pushMagnitude;
+
+
+    private void Start()
+    {
+        this.GetComponent<Rigidbody2D>().velocity = initialVelocity;
+    }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         this.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
 
@@ -21,10 +32,27 @@ public class Gravity : MonoBehaviour
             //Distance is already squared
             float force = (gravitationalConstant * bodyMasses[i] * GetComponent<Rigidbody2D>().mass) / (vectorToGravitySource.sqrMagnitude);
 
-            this.GetComponent<Rigidbody2D>().AddForce(vectorToGravitySource.normalized * force);
-            Debug.DrawRay(transform.position, vectorToGravitySource.normalized * force, Color.red);
+            this.GetComponent<Rigidbody2D>().AddForce(vectorToGravitySource.normalized * force * Time.fixedDeltaTime);
+            lines[i].SetPosition(1, vectorToGravitySource.normalized * force * 0.02f);
         }
 
-        //TODO: Add userinput movement
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
+        Vector2 forceVector = new Vector2(h, v);
+        forceVector = forceVector.normalized * pushMagnitude;
+
+        GetComponent<Rigidbody2D>().AddForce(forceVector * Time.fixedDeltaTime);
+        pushLine.SetPosition(1, forceVector * 0.02f);
+
+
+    }
+
+    private void OnDisable()
+    {
+        foreach (LineRenderer line in lines)
+        {
+            line.SetPosition(1, Vector3.zero);
+        }
+        pushLine.SetPosition(1, Vector3.zero);
     }
 }
